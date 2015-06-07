@@ -33,6 +33,12 @@
 		});
 		
 		it("should process a ledger with multiple lines", function() {
+			var ledger = new Ledger("2015-01-16,john,mary,125.00\n"+"2015-01-16,john,mary,25.00");
+			expect(ledger.totalFor("john")).toBe(-150);
+			expect(ledger.totalFor("mary")).toBe(150);
+		});
+		
+		it("should process a ledger with multiple lines as an array", function() {
 			var ledger = new Ledger([
 				"2015-01-16,john,mary,125.00",
 				"2015-01-16,john,mary,25.00"

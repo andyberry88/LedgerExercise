@@ -4,7 +4,7 @@
 	var Ledger = function (ledgerInput, toDate) {
 		this._accounts = {};
 		if (typeof ledgerInput === "string") {
-			ledgerInput = [ledgerInput];
+			ledgerInput = ledgerInput.split("\n");
 		}
 		var processToDate = (toDate === undefined) ? new Date() : parseDate(toDate);
 		for (var i = 0; i < ledgerInput.length; i++) {
