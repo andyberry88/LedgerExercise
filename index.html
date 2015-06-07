@@ -14,10 +14,17 @@
 		$.get( "ledger.txt", function(data){
 			document.write("<p>Using data:<pre>"+data+"</pre></p><hr/>");
 			var testLedger = new Ledger(data);
-			document.write("<p>Blanace for john: "+testLedger.totalFor("john")+"</p>");
-			document.write("<p>Blanace for mary: "+testLedger.totalFor("mary")+"</p>");
-			document.write("<p>Blanace for supermarket: "+testLedger.totalFor("supermarket")+"</p>");
-			document.write("<p>Blanace for insurance: "+testLedger.totalFor("insurance")+"</p>");
+			var names = ["john", "mary", "supermarket", "insurance"];
+			for (var i = 0; i < names.length; i++) {
+				var name = names[i];
+				document.write("<p>Balance for "+name+": "+testLedger.account(name).balance()+"</p>");
+			}
+			document.write("<hr/>");
+			var toDate = "2015-01-16";
+			for (var i = 0; i < names.length; i++) {
+				var name = names[i];
+				document.write("<p>Balance to "+toDate+" for "+name+": "+testLedger.account(name).balanceToDate(toDate)+"</p>");
+			}
 		});
 	</script>
 </body>

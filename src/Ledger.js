@@ -6,22 +6,20 @@
 		if (typeof ledgerInput === "string") {
 			ledgerInput = ledgerInput.split("\n");
 		}
-		var processToDate = (toDate === undefined) ? new Date() : parseDate(toDate);
 		for (var i = 0; i < ledgerInput.length; i++) {
 			var line = ledgerInput[i];
 			if (line.length === 0) {
 				continue;
 			}
 			var processedLine = processLine(line);
-			if (processedLine.date <= processToDate) {
-				var amount = processedLine.amount;
-				this.getAccount(processedLine.name).removeValue(amount);
-				this.getAccount(processedLine.destination).addValue(amount);
-			}
+			var amount = processedLine.amount;
+			var date = processedLine.date;
+			this.account(processedLine.name).addTransaction(date, (amount*-1));
+			this.account(processedLine.destination).addTransaction(date, amount);
 		}
 	};
 
-	Ledger.prototype.getAccount = function(name) {
+	Ledger.prototype.account = function(name) {
 		var account = this._accounts[name];
 		if (account === undefined) {
 			account = new Account();
@@ -29,28 +27,34 @@
 		}
 		return account;
 	};
-
-	Ledger.prototype.totalFor = function(name) {
-		return this.getAccount(name).amount();
-	};
-	
-	
 	
 	
 	var Account = function() {
-		this._amount = 0;
+		this._transactions = [];
 	};
 	
-	Account.prototype.amount = function() {
-		return this._amount;
+	Account.prototype.balance = function() {
+		return this.balanceToDate();
 	};
 	
-	Account.prototype.addValue = function(val) {
-		this._amount += val;
+	Account.prototype.balanceToDate = function(toDate) {
+		var processToDate = (toDate === undefined) ? new Date() : parseDate(toDate);
+		var balance = 0;
+		for (var i = 0; i < this._transactions.length; i++) {
+			var transaction = this._transactions[i];
+			if (transaction.date > processToDate) {
+				continue;
+			}
+			balance += transaction.amount;
+		}
+		return balance;
 	};
 	
-	Account.prototype.removeValue = function(val) {
-		this._amount -= val;
+	Account.prototype.addTransaction = function(date, amount) {
+		this._transactions.push({
+			"date":date,
+			"amount": amount
+		});
 	};
 
 

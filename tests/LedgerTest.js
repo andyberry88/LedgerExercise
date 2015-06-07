@@ -5,7 +5,7 @@
 
 		it("should start account values at 0", function() {
 			var ledger = new Ledger([]);
-			expect(ledger.totalFor("john")).toBe(0);
+			expect(ledger.account("john").balance()).toBe(0);
 		});
 		
 		it("should thrown an exception if lines arent in a valid format", function() {
@@ -28,14 +28,14 @@
 		
 		it("should process a ledger with a single line", function() {
 			var ledger = new Ledger("2015-01-16,john,mary,125.00");
-			expect(ledger.totalFor("john")).toBe(-125);
-			expect(ledger.totalFor("mary")).toBe(125);
+			expect(ledger.account("john").balance()).toBe(-125);
+			expect(ledger.account("mary").balance()).toBe(125);
 		});
 		
 		it("should process a ledger with multiple lines", function() {
 			var ledger = new Ledger("2015-01-16,john,mary,125.00\n"+"2015-01-16,john,mary,25.00");
-			expect(ledger.totalFor("john")).toBe(-150);
-			expect(ledger.totalFor("mary")).toBe(150);
+			expect(ledger.account("john").balance()).toBe(-150);
+			expect(ledger.account("mary").balance()).toBe(150);
 		});
 		
 		it("should process a ledger with multiple lines as an array", function() {
@@ -43,8 +43,8 @@
 				"2015-01-16,john,mary,125.00",
 				"2015-01-16,john,mary,25.00"
 			]);
-			expect(ledger.totalFor("john")).toBe(-150);
-			expect(ledger.totalFor("mary")).toBe(150);
+			expect(ledger.account("john").balance()).toBe(-150);
+			expect(ledger.account("mary").balance()).toBe(150);
 		});
 		
 		it("should process a ledger with positive and negative transactions", function() {
@@ -52,8 +52,8 @@
 				"2015-01-16,john,mary,125.00",
 				"2015-01-16,john,mary,-25.00"
 			]);
-			expect(ledger.totalFor("john")).toBe(-100);
-			expect(ledger.totalFor("mary")).toBe(100);
+			expect(ledger.account("john").balance()).toBe(-100);
+			expect(ledger.account("mary").balance()).toBe(100);
 		});
 		
 		it("should process a ledger with multipe accounts", function() {
@@ -64,11 +64,11 @@
 				"2015-01-17,mary,bob,100.00",
 				"2015-01-17,bob,john,50.00"
 			]);
-			expect(ledger.totalFor("john")).toBe(-95);
-			expect(ledger.totalFor("mary")).toBe(-75);
-			expect(ledger.totalFor("supermarket")).toBe(20);
-			expect(ledger.totalFor("insurance")).toBe(100);
-			expect(ledger.totalFor("bob")).toBe(50);
+			expect(ledger.account("john").balance()).toBe(-95);
+			expect(ledger.account("mary").balance()).toBe(-75);
+			expect(ledger.account("supermarket").balance()).toBe(20);
+			expect(ledger.account("insurance").balance()).toBe(100);
+			expect(ledger.account("bob").balance()).toBe(50);
 		});
 		
 		it("should process a ledger up to a given date", function() {
@@ -78,9 +78,9 @@
 				"2015-01-17,mary,insurance,100.00",
 				"2015-01-17,mary,bob,100.00",
 				"2015-01-17,bob,john,50.00"
-			], "2015-01-16");
-			expect(ledger.totalFor("john")).toBe(-125);
-			expect(ledger.totalFor("mary")).toBe(125);
+			]);
+			expect(ledger.account("john").balanceToDate("2015-01-16")).toBe(-125);
+			expect(ledger.account("mary").balanceToDate("2015-01-16")).toBe(125);
 		});
 		
 		it("should process a ledger up to a given date if transactions arent in order", function() {
@@ -90,15 +90,15 @@
 				"2015-01-16,john,mary,125.00",
 				"2015-01-17,mary,bob,100.00",
 				"2015-01-17,bob,john,50.00"
-			], "2015-01-16");
-			expect(ledger.totalFor("john")).toBe(-125);
-			expect(ledger.totalFor("mary")).toBe(125);
+			]);
+			expect(ledger.account("john").balanceToDate("2015-01-16")).toBe(-125);
+			expect(ledger.account("mary").balanceToDate("2015-01-16")).toBe(125);
 		});
 		
 		it("should ignore empty lines", function() {
 			var ledger = new Ledger("2015-01-16,john,mary,125.00\n");
-			expect(ledger.totalFor("john")).toBe(-125);
-			expect(ledger.totalFor("mary")).toBe(125);
+			expect(ledger.account("john").balance()).toBe(-125);
+			expect(ledger.account("mary").balance()).toBe(125);
 		});
 		
 		
