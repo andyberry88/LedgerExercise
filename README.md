@@ -27,3 +27,12 @@ words, his balance is Â§-145.00.
 Of course, there's a twist, which is as follows. We'd like to be able to find
 out what each party's balance is at a specified date. For example, Mary's
 balance on the 16th of January is Â§0.00, but on the 17th it's Â§125.00.
+
+## Implementation
+
+- Source is inside the `src` directory
+- Tests are inside `test` directory
+ - Run tests via `grunt test` after running `npm install`
+- Example usage can be seen in `example/index.html`
+ - use `grunt serve` after `npm install` to run a development server
+ - input for the ledger is inside `ledger.txt`

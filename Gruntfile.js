@@ -16,8 +16,20 @@ module.exports = function (grunt) {
 		},
 		watch: {
 			files: ['src/**/*.js', 'tests/**/*.js'],
-			tasks: ['jasmine']
+			tasks: ['test']
+		},
+		connect: {
+			server: {
+				options: {
+					port: 8080,
+					base: ['example', 'src'],
+					keepalive: true
+				}
+			}
 		}
 
 	});
+	
+	grunt.registerTask('test', ['jasmine']);
+	grunt.registerTask('serve', ['connect']);
 };
