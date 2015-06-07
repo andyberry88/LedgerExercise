@@ -1,0 +1,18 @@
+{
+  "name": "LedgerExercise",
+  "version": "1.0.0",
+  "description": "A programming exercise to write a small ledger processing script.",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-jasmine": "^0.8.2",
+    "grunt-contrib-watch": "^0.6.1",
+    "load-grunt-tasks": "^3.2.0"
+  },
+  "scripts": {
+    "test": "grunt jasmine"
+  },
+  "author": "",
+  "license": "ISC"
+}
