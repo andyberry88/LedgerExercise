@@ -8,7 +8,11 @@
 		}
 		var processToDate = (toDate === undefined) ? new Date() : parseDate(toDate);
 		for (var i = 0; i < ledgerInput.length; i++) {
-			var processedLine = processLine(ledgerInput[i]);
+			var line = ledgerInput[i];
+			if (line.length === 0) {
+				continue;
+			}
+			var processedLine = processLine(line);
 			if (processedLine.date <= processToDate) {
 				var amount = processedLine.amount;
 				this.getAccount(processedLine.name).removeValue(amount);

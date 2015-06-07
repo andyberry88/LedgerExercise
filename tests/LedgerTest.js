@@ -95,6 +95,12 @@
 			expect(ledger.totalFor("mary")).toBe(125);
 		});
 		
+		it("should ignore empty lines", function() {
+			var ledger = new Ledger("2015-01-16,john,mary,125.00\n");
+			expect(ledger.totalFor("john")).toBe(-125);
+			expect(ledger.totalFor("mary")).toBe(125);
+		});
+		
 		
 		
 	});
