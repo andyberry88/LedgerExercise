@@ -3,10 +3,15 @@
 	
 	var Ledger = function (ledgerInput) {
 		this._accounts = {};
-		var processedLine = processLine(ledgerInput);
-		var amount = processedLine.amount;
-		this.getAccount(processedLine.name).removeValue(amount);
-		this.getAccount(processedLine.destination).addValue(amount);
+		if (typeof ledgerInput === "string") {
+			ledgerInput = [ledgerInput];
+		}
+		for (var i = 0; i < ledgerInput.length; i++) {
+			var processedLine = processLine(ledgerInput[i]);
+			var amount = processedLine.amount;
+			this.getAccount(processedLine.name).removeValue(amount);
+			this.getAccount(processedLine.destination).addValue(amount);
+		}
 	};
 
 	Ledger.prototype.getAccount = function(name) {
