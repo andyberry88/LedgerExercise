@@ -79,6 +79,9 @@
 		var year = dateArray[1];
 		var month = dateArray[2];
 		var day = dateArray[3];
+		if (month > 12) {
+			throw new Error("Date '"+dateInput+"' is in an incorrect format - must be YYYY-DD-MM");
+		}
 		return new Date(year, month, day);
 	};
 	var parseAmount = function(amount) {

@@ -20,6 +20,12 @@
 			}).toThrowError("Unable to parse date '2015 01 16'");
 		});
 		
+		it("should thrown an exception if date is in the wrong format", function() {
+			expect(function () {
+				new Ledger("2015-16-01,john,mary,125.00");
+			}).toThrowError("Date '2015-16-01' is in an incorrect format - must be YYYY-DD-MM");
+		});
+		
 		it("should thrown an exception if amount isnt a valid format", function() {
 			expect(function () {
 				new Ledger("2015-01-16,john,mary,A125.00");
