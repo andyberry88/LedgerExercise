@@ -3,9 +3,27 @@
 
 	describe("Ledger Test", function() {
 
-		it("account amount starts at 0", function() {
+		it("should start account values at 0", function() {
 			var ledger = new Ledger([]);
 			expect(ledger.totalFor("john")).toBe(0);
+		});
+		
+		it("should thrown an exception if lines arent in a valid format", function() {
+			expect(function () {
+				new Ledger("2015-01-16 john,mary,125.00");
+			}).toThrowError("Unable to parse line '2015-01-16 john,mary,125.00'");
+		});
+		
+		it("should thrown an exception if date isnt a valid format", function() {
+			expect(function () {
+				new Ledger("2015 01 16,john,mary,125.00");
+			}).toThrowError("Unable to parse date '2015 01 16'");
+		});
+		
+		it("should thrown an exception if amount isnt a valid format", function() {
+			expect(function () {
+				new Ledger("2015-01-16,john,mary,A125.00");
+			}).toThrowError("Unable to parse amount 'A125.00'");
 		});
 		
 		it("should process a ledger with a single line", function() {
@@ -70,6 +88,8 @@
 			expect(ledger.totalFor("john")).toBe(-125);
 			expect(ledger.totalFor("mary")).toBe(125);
 		});
+		
+		
 		
 	});
 

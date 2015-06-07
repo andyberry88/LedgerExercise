@@ -53,19 +53,32 @@
 
 	var processLine = function(line) {
 		var lineSplit = line.split(",");
+		if (lineSplit.length != 4) {
+			throw new Error("Unable to parse line '"+line+"'");
+		}
 		return {
 			"date" : parseDate(lineSplit[0]),
 			"name" : lineSplit[1],
 			"destination" : lineSplit[2],
-			"amount" : parseInt(lineSplit[3])
+			"amount" : parseAmount(lineSplit[3])
 		};
 	};
 	var parseDate = function(dateInput) {
 		var dateArray = /([0-9]{4})-([0-9]{2})-([0-9]{2})/.exec(dateInput);
+		if (dateArray === null) {
+			throw new Error("Unable to parse date '"+dateInput+"'");
+		}
 		var year = dateArray[1];
 		var month = dateArray[2];
 		var day = dateArray[3];
 		return new Date(year, month, day);
+	};
+	var parseAmount = function(amount) {
+		var parsedAmount = parseInt(amount);
+		if (isNaN(parsedAmount)) {
+			throw new Error("Unable to parse amount '"+amount+"'");
+		}
+		return parsedAmount;
 	};
 
 
